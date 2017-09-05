@@ -83,6 +83,22 @@
 
 //            updateItem: function(updatingBook){},
 
+            updateItem: function (item) {
+                 $.ajax({
+                    type: "POST",
+                    url: "/list/",
+                    data: item,
+                    success: function (result) {
+                        console.log(item);
+                    },
+                    error: function (e) {
+                        alert("Error!")
+                        console.log("ERROR: ", e);
+                        console.log(item);
+                    }
+                });
+
+            }
         }
 
         var MyCustomDirectLoadStrategy = function(grid) {
@@ -90,6 +106,7 @@
         };
 
         MyCustomDirectLoadStrategy.prototype = new jsGrid.loadStrategies.DirectLoadingStrategy();
+
 
         MyCustomDirectLoadStrategy.prototype.finishDelete = function(deletedItem, deletedItemIndex) {
             var grid = this._grid;
@@ -112,16 +129,16 @@
         };
 
 
-        //update deneme işlemi..
-//        MyCustomDirectLoadStrategy.prototype._finishUpdate= function($updatingrow, updatedItem, updatedItemIndex) {
+//        update deneme işlemi..
+//        MyCustomDirectLoadStrategy.prototype.updateItem= function(item, editedItem) {
 //            var grid = this._grid;
-//            grid.option("data").splice(updatedItemIndex, 1);
+//
 //            grid.refresh();
 //
 //            $.ajax({
 //                type: "POST",
 //                url: "/list/",
-//                data: updatedItem,
+//                data: item,
 //                success : function(result) {
 //                    console.log(result);
 //                },
@@ -133,23 +150,44 @@
 //            console.log("Ajax posttan çıktı.");
 //        };
 
+
+
         window.db = db;
 
         db.booklist = ${list};
+
+
+//        var baseEditItem = jsGrid.Grid.prototype.editItem;
+//
+//        jsGrid.Grid.prototype.editItem = function() {
+//            console.log("editItem ın içinde ");
+//            if(this._editingRow) {
+//                console.log("if'e girdi.");
+//                this.updateItem();
+//                console.log("Edited item : ", editedItem);
+//            }
+//            console.log("if'den çıktı.");
+//            baseEditItem.apply(this, arguments);
+//        };
+
 
         $("#jsGrid").jsGrid({
             width: "100%",
             height: "400px",
 
             filtering: true,
-            editing: false,
+            editing: true,
             sorting: true,
             paging: true,
             autoload: true,
-
             pageButtonCount: 5,
 
             deleteConfirm: "Do you really want to delete the book?",
+
+//            rowClick: function(args) {
+//
+//                console.log("row clicked")
+//            },
 
             controller: db,
 
@@ -158,26 +196,16 @@
             },
 
             fields: [
-                { name: "id", type: "number", width: 50, validate: "required" },
+                { name: "id", type: "number", width: 50, editing: false, validate: "required" },
                 { name: "name", type: "text", width: 150 },
                 { name: "author", type: "text", width: 100 },
                 { name: "date", type: "text", width: 200 },
-                { type: "control"}
-            ],
+                { type: "control", editButton: false}
+            ]
 
         });
 
-//        var gridSettings = JSON.parse(localStorage.getItem("gridSettings"));
-//        var grid = $("#jsGrid").data("JSGrid");
 
-//            grid.search(gridSettings.filter).done(function () {
-//                grid.sort({
-//                    field: gridSettings.sorting.sortField,
-//                    order: gridSettings.sorting.sortOrder
-//                }).done(function () {
-//                    grid.option("pageIndex", gridSettings.pageIndex)
-//                });
-//            });
 
     </script>
 
