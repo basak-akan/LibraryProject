@@ -55,13 +55,20 @@ public class Controllers {
     }
 
     @PostMapping(value = "/list/")
-   public void deleteBook(@ModelAttribute("deletedItem")Book deletedbook, HttpSession session){
+   public void deleteBook(@ModelAttribute("deletedItem")Book deletedbook,@ModelAttribute("item")Book updatedbook, HttpSession session){
         if(deletedbook!= null)
-        bookRepo.deleteBookByName(deletedbook.getName());
-        /*
-        if(updatedbook != null)
-          */
+
+         bookRepo.delete(deletedbook.getId());
+
+        if(updatedbook != null){
+            System.out.println(updatedbook.toString());
+
+
+     //   bookRepo.delete(updatedbook.getId());
+     //   bookRepo.save(updatedbook);
+        }
    }
+
 
     @RequestMapping("/delete-all/")
     public void deleteall() {

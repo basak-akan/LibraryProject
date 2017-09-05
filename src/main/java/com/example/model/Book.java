@@ -10,24 +10,23 @@ import java.util.Date;
 
 @Entity
 public class Book {
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private  int id;
-
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     private String name;
     private String author;
     private String date;
-
     public Book() {
 
     }
-
-
     public Book(int id, String name, String author, String date) {
         this.id = id;
         this.name = name;

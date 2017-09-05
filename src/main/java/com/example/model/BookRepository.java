@@ -12,4 +12,5 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
 
     @Transactional
     void deleteBookByName(String firstName);
+
 }
